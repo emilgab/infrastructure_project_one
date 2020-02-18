@@ -1,0 +1,18 @@
+global {
+	project website-name
+}
+
+hostname loadbalancer {
+	openstack {
+		image Ubuntu16.04
+		flavor m1.small
+		keypair masterkey
+		user_data {
+			apt-get update
+			apt-get install pound
+		}
+	}
+	network eth0 {
+		net netsys_net
+	}
+}
