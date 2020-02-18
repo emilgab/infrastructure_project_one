@@ -1,0 +1,39 @@
+global {
+  project website-name
+}
+
+hostname web01 {
+  openstack {
+    image Ubuntu16.04
+    flavor m1.small
+    keypair masterkey
+    user_data {
+      apt-get update
+      apt-get install apache2
+    }
+  }
+}
+
+hostname web02 {
+  openstack {
+    image Ubuntu16.04
+    flavor m1.small
+    keypair masterkey
+    user_data {
+      apt-get update
+      apt-get install apache2
+    }
+  }
+}
+
+hostname nodejs {
+  openstack {
+    image Ubuntu16.04
+    flavor m1.small
+    keypair masterkey
+    user_data {
+      apt-get update
+      apt-get install nodejs
+    }
+  }
+}
