@@ -1,0 +1,77 @@
+global {
+}
+
+superclass common {
+  openstack {
+    image Ubuntu16.04
+    flavor m1.small
+    keypair masterkey
+    user_data {
+      wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb
+      dpkg -i puppetlabs-release-trusty.deb
+      apt-get update
+      apt install puppet
+      puppet resource service puppet ensure=running
+    }
+  }
+  network eth0 {
+    net netsys_net
+  }
+}
+
+# Caching service
+
+hostname cache {
+  superclass common
+  user_data {
+    apt-get install memcached
+  }
+}
+
+# Database services
+
+hostname database01 {
+  superclass common
+  user_data {
+    apt-get install mysql-server
+  }
+}
+
+hostname database02 {
+  superclass common
+  user_data {
+    apt-get install mysql-server
+  }
+}
+
+# Loadbalancer
+
+hostname loadbalance {
+  superclass common
+  user_data {
+    apt-get install pound
+  }
+}
+
+# Webserver nodes
+
+hostname web01 {
+  superclass common
+  user_data {
+    apt-get install apache2
+  }
+}
+
+hostname web02 {
+  superclass common
+  user_data {
+    apt-get install apache2
+  }
+}
+
+hostname nodejs {
+  superclass common
+  user_data {
+    apt-get install nodejs
+  }
+}
