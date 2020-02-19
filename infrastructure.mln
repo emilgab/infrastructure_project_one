@@ -7,11 +7,10 @@ superclass common {
     flavor m1.small
     keypair masterkey
     user_data {
-      wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb
-      dpkg -i puppetlabs-release-trusty.deb
+      wget https://apt.puppetlabs.com/puppetlabs-release-pc1-xenial.deb
+      dpkg -i puppetlabs-release-pc1-xenial.deb
       apt-get update
       apt install puppet
-      puppet resource service puppet ensure=running
     }
   }
   network eth0 {
@@ -33,14 +32,14 @@ hostname cache {
 hostname database01 {
   superclass common
   user_data {
-    apt-get install mysql-server
+    puppet module install puppetlabs/mysql
   }
 }
 
 hostname database02 {
   superclass common
   user_data {
-    apt-get install mysql-server
+    puppet module install puppetlabs/mysql
   }
 }
 
@@ -50,6 +49,7 @@ hostname loadbalance {
   superclass common
   user_data {
     apt-get install pound
+    wget https://github.com/emilgab/infrastructure_project_one/blob/master/puppet/pound.pp
   }
 }
 
@@ -58,20 +58,25 @@ hostname loadbalance {
 hostname web01 {
   superclass common
   user_data {
-    apt-get install apache2
+    add-apt-repository ppa:ondrej/php
+    apt-get install php5.6 php5.6-mysql php5.6-gd php5.6-mcrypt php5.6-mbstring php5.6-sqlite3 apache2 libapache2-mod-php5.6
+    wget github.com/emilgab/...../apache.pp
   }
 }
 
 hostname web02 {
   superclass common
   user_data {
-    apt-get install apache2
+    puppet module install puppetlabs-apache
+    apt-get install php5 php-mysql
+    wget github.com/emilgab/...../apache.pp
   }
 }
 
 hostname nodejs {
   superclass common
   user_data {
-    apt-get install nodejs
+    curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+    wget https://github.com/emilgab/infrastructure_project_one/blob/master/puppet/web_nodejs.pp
   }
 }
