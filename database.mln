@@ -1,7 +1,3 @@
-global {
-  project website-name
-}
-
 hostname database01 {
   openstack {
     image Ubuntu16.04
