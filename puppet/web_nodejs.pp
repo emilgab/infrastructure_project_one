@@ -1,0 +1,3 @@
+package { 'nodejs':
+  ensure => present,
+}
