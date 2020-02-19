@@ -90,7 +90,8 @@ openstack {
 host nodejs {
   superclass common
   user_data {
-    curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-    wget https://github.com/emilgab/infrastructure_project_one/blob/master/puppet/web_nodejs.pp
+    apt install -y nodejs
+    wget https://raw.githubusercontent.com/emilgab/infrastructure_project_one/master/puppet/web_nodejs.pp
+    puppet apply web_nodejs.pp
   }
 }
