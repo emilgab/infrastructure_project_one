@@ -1,7 +1,7 @@
 $people = [ 'tom', 'brady', 'janet' ]
 $groups = [ 'webadmins','sudo' ]
 
-# must be run with the future parser: puppet apply --parser future --noop common.pp
+# must be run with the future parser: puppet apply --parser future common.pp
 each($people) |$user| {
         user { "$user":
                 ensure => present,

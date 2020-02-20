@@ -1,4 +1,13 @@
 global {
+  project deploy_all
+  autoenum database {
+    superclass database
+    num 2
+  }
+  autoenum web {
+    superclass apache_web
+    num 2
+  }
 }
 
 superclass common {
@@ -11,6 +20,8 @@ superclass common {
       dpkg -i puppetlabs-release-pc1-xenial.deb
       apt-get update
       apt install -y puppet
+      wget https://raw.githubusercontent.com/emilgab/infrastructure_project_one/master/puppet/common.pp
+      puppet apply --parser future common.pp
     }
   }
   network eth0 {
@@ -29,8 +40,7 @@ host cache {
 }
 
 # Database services
-
-host database01 {
+superclass database {
   superclass common
   openstack {
     user_data {
@@ -41,19 +51,34 @@ host database01 {
   }
 }
 
-host database02 {
+# Webservers, apache
+superclass apache_web {
   superclass common
   openstack {
     user_data {
-      puppet module install puppetlabs-mysql --version 3.11.0
-      wget https://raw.githubusercontent.com/emilgab/infrastructure_project_one/master/puppet/database.pp
-      puppet apply database.pp
+      touch /etc/apt/sources.list.d/ondrej-php5-5_6-xenial.list
+      echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu xenial main" >> /etc/apt/sources.list.d/ondrej-php5-5_6-xenial.list
+      echo "deb-src http://ppa.launchpad.net/ondrej/php/ubuntu xenial main" >> /etc/apt/sources.list.d/ondrej-php5-5_6-xenial.list
+      apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E5267A6C
+      apt update
+      apt install -y php5.6 php5.6-mysql
+      wget https://raw.githubusercontent.com/emilgab/infrastructure_project_one/master/puppet/apache.pp
+      puppet apply apache.pp
     }
   }
 }
+
+# Webserver, NodeJS
+host nodejs {
+  superclass common
+  user_data {
+    wget https://raw.githubusercontent.com/emilgab/infrastructure_project_one/master/puppet/web_nodejs.pp
+    puppet apply web_nodejs.pp
+  }
+}
+
 
 # Loadbalancer
-
 host loadbalance {
   superclass common
   openstack {
@@ -61,47 +86,5 @@ host loadbalance {
       wget https://raw.githubusercontent.com/emilgab/infrastructure_project_one/master/puppet/pound.pp
       puppet apply pound.pp
     }
-  }
-}
-
-# Webserver nodes
-
-host web01 {
-  superclass common
-  openstack {
-    user_data {
-      touch /etc/apt/sources.list.d/ondrej-php5-5_6-xenial.list
-      echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu xenial main" >> /etc/apt/sources.list.d/ondrej-php5-5_6-xenial.list
-      echo "deb-src http://ppa.launchpad.net/ondrej/php/ubuntu xenial main" >> /etc/apt/sources.list.d/ondrej-php5-5_6-xenial.list
-      apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E5267A6C
-      apt update
-      apt install -y php5.6 php5.6-mysql
-      wget https://raw.githubusercontent.com/emilgab/infrastructure_project_one/master/puppet/apache.pp
-      puppet apply apache.pp
-    }
-  }
-}
-
-host web02 {
-  superclass common
-  openstack {
-    user_data {
-      touch /etc/apt/sources.list.d/ondrej-php5-5_6-xenial.list
-      echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu xenial main" >> /etc/apt/sources.list.d/ondrej-php5-5_6-xenial.list
-      echo "deb-src http://ppa.launchpad.net/ondrej/php/ubuntu xenial main" >> /etc/apt/sources.list.d/ondrej-php5-5_6-xenial.list
-      apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E5267A6C
-      apt update
-      apt install -y php5.6 php5.6-mysql
-      wget https://raw.githubusercontent.com/emilgab/infrastructure_project_one/master/puppet/apache.pp
-      puppet apply apache.pp
-    }
-  }
-}
-
-host nodejs {
-  superclass common
-  user_data {
-    wget https://raw.githubusercontent.com/emilgab/infrastructure_project_one/master/puppet/web_nodejs.pp
-    puppet apply web_nodejs.pp
   }
 }
