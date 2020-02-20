@@ -1,21 +1,12 @@
 $groups = [ 'webadmins','sudo' ]
+$people = [ 'tom', 'brady', 'janet' ]
 
 group { 'webadmins' :
   ensure => present,
   gid => 501,
 }
 
-user { 'tom' :
-  ensure => present,
-  groups => $groups,
-}
-
-user { 'brady' :
-  ensure => present,
-  groups => $groups,
-}
-
-user { 'janet' :
+user { $people :
   ensure => present,
   groups => $groups,
 }
