@@ -32,15 +32,23 @@ host cache {
 
 host database01 {
   superclass common
-  user_data {
-    puppet module install puppetlabs/mysql
+  openstack {
+    user_data {
+      puppet module install puppetlabs-mysql --version 3.11.0
+      wget https://raw.githubusercontent.com/emilgab/infrastructure_project_one/master/puppet/database.pp
+      puppet apply database.pp
+    }
   }
 }
 
 host database02 {
   superclass common
-  user_data {
-    puppet module install puppetlabs/mysql
+  openstack {
+    user_data {
+      puppet module install puppetlabs-mysql --version 3.11.0
+      wget https://raw.githubusercontent.com/emilgab/infrastructure_project_one/master/puppet/database.pp
+      puppet apply database.pp
+    }
   }
 }
 
