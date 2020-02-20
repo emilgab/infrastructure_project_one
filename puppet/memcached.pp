@@ -1,0 +1,3 @@
+package { 'memcached':
+	ensure => present,
+}
