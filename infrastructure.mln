@@ -92,7 +92,6 @@ host web02 {
 host nodejs {
   superclass common
   user_data {
-    apt install -y nodejs
     wget https://raw.githubusercontent.com/emilgab/infrastructure_project_one/master/puppet/web_nodejs.pp
     puppet apply web_nodejs.pp
   }
