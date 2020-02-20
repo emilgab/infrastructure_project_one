@@ -23,7 +23,8 @@ superclass common {
 host cache {
   superclass common
   user_data {
-    apt-get install memcached
+    wget https://raw.githubusercontent.com/emilgab/infrastructure_project_one/master/puppet/memcached.pp
+    puppet apply memcached.pp
   }
 }
 
