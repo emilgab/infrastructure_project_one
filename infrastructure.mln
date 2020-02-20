@@ -47,9 +47,11 @@ host database02 {
 
 host loadbalance {
   superclass common
-  user_data {
-    apt-get install pound
-    wget https://github.com/emilgab/infrastructure_project_one/blob/master/puppet/pound.pp
+  openstack {
+    user_data {
+      wget https://raw.githubusercontent.com/emilgab/infrastructure_project_one/master/puppet/pound.pp
+      puppet apply pound.pp
+    }
   }
 }
 
