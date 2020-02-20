@@ -72,19 +72,19 @@ host web01 {
 }
 
 host web02 {
-superclass common
-openstack {
-  user_data {
-    touch /etc/apt/sources.list.d/ondrej-php5-5_6-xenial.list
-    echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu xenial main" >> /etc/apt/sources.list.d/ondrej-php5-5_6-xenial.list
-    echo "deb-src http://ppa.launchpad.net/ondrej/php/ubuntu xenial main" >> /etc/apt/sources.list.d/ondrej-php5-5_6-xenial.list
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E5267A6C
-    apt update
-    apt install -y php5.6 php5.6-mysql
-    wget https://raw.githubusercontent.com/emilgab/infrastructure_project_one/master/puppet/apache.pp
-    puppet apply apache.pp
+  superclass common
+  openstack {
+    user_data {
+      touch /etc/apt/sources.list.d/ondrej-php5-5_6-xenial.list
+      echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu xenial main" >> /etc/apt/sources.list.d/ondrej-php5-5_6-xenial.list
+      echo "deb-src http://ppa.launchpad.net/ondrej/php/ubuntu xenial main" >> /etc/apt/sources.list.d/ondrej-php5-5_6-xenial.list
+      apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E5267A6C
+      apt update
+      apt install -y php5.6 php5.6-mysql
+      wget https://raw.githubusercontent.com/emilgab/infrastructure_project_one/master/puppet/apache.pp
+      puppet apply apache.pp
+    }
   }
-}
 }
 
 host nodejs {
