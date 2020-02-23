@@ -1,4 +1,5 @@
 global {
+  global infra
 }
 
 superclass common {
@@ -22,9 +23,11 @@ superclass common {
 
 host cache {
   superclass common
-  user_data {
-    wget https://raw.githubusercontent.com/emilgab/infrastructure_project_one/master/puppet/memcached.pp
-    puppet apply memcached.pp
+  openstack {
+    user_data {
+      wget https://raw.githubusercontent.com/emilgab/infrastructure_project_one/master/puppet/memcached.pp
+      puppet apply memcached.pp
+    }
   }
 }
 
@@ -100,8 +103,10 @@ host web02 {
 
 host nodejs {
   superclass common
-  user_data {
-    wget https://raw.githubusercontent.com/emilgab/infrastructure_project_one/master/puppet/web_nodejs.pp
-    puppet apply web_nodejs.pp
+  openstack {
+    user_data {
+      wget https://raw.githubusercontent.com/emilgab/infrastructure_project_one/master/puppet/web_nodejs.pp
+      puppet apply web_nodejs.pp
+    }
   }
 }
