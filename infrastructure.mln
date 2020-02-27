@@ -13,7 +13,7 @@ superclass common {
       apt-get update
       apt install -y puppet
       wget https://raw.githubusercontent.com/emilgab/infrastructure_project_one/master/puppet/common.pp
-      puppet --parser future apply common.pp
+      puppet apply --parser future common.pp
     }
   }
   network eth0 {
